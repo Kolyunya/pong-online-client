@@ -3,5 +3,7 @@
 !Resources/*
 !Sources
 !Sources/*
+!Build
+!Build/*
 !.gitignore
 !PongOnlineClient.pro
