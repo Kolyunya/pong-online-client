@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/Graphics">
+        <file>Logo_001.png</file>
+        <file>Logo_002.png</file>
+        <file>PlayerPlatform.png</file>
+        <file>EnemyPlatform.png</file>
+        <file>Ball.png</file>
+    </qresource>
+    <qresource prefix="/Fonts">
+        <file>Agency FB Bold.ttf</file>
+        <file>Agency FB Regular.ttf</file>
+    </qresource>
+    <qresource prefix="/Sounds">
+        <file>Music_001.wav</file>
+        <file>Music_002.wav</file>
+    </qresource>
+</RCC>
