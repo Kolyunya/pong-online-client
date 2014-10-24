@@ -7,3 +7,4 @@
 !Build/*
 !.gitignore
 !PongOnlineClient.pro
+!PongOnlineClient.ini

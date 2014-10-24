@@ -9,6 +9,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QException>
+#include <QSettings>
 
 NetworkManager::NetworkManager ( QObject* parentPtr ) :
     QObject(parentPtr),
@@ -38,9 +39,13 @@ void NetworkManager::connectToServer ( void )
     // Activate the manager
     this->isActive = true;
 
+    // Retrieve server address and port from the client settings
+    QSettings settings("PongOnlineClient.ini",QSettings::IniFormat);
+    QString serverAddressString = settings.value("Server/ServerAddress").toString();
+    QHostAddress serverAddress = QHostAddress(serverAddressString);
+    quint16 serverPort = settings.value("Server/ServerPort").toUInt();
+
     // Connect to the server
-    QHostAddress serverAddress { ServerInfo::address };
-    quint16 serverPort { ServerInfo::port };
     this->tcpSocket.connectToHost(serverAddress,serverPort);
 
 }
