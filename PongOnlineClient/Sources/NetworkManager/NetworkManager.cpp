@@ -4,7 +4,6 @@
 #include <Message/Message/HandshakeAck/HandshakeAck.hpp>
 #include <Message/Message/Delimiter/Delimiter.hpp>
 #include <Message/MessageParser/MessageParser.hpp>
-#include <ServerInfo/ServerInfo.hpp>
 #include <QByteArray>
 #include <QJsonDocument>
 #include <QJsonObject>
