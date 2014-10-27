@@ -16,6 +16,7 @@ NetworkManager::NetworkManager ( QObject* parentPtr ) :
     isActive(false),
     isConnected(false)
 {
+    this->initializeServerCredentials();
     this->initializeHandshakeTimer();
     this->initializeUdpSocket();
     this->initializeTcpSocket();
@@ -39,14 +40,12 @@ void NetworkManager::connectToServer ( void )
     // Activate the manager
     this->isActive = true;
 
-    // Retrieve server address and port from the client settings
-    QSettings settings("PongOnlineClient.ini",QSettings::IniFormat);
-    QString serverAddressString = settings.value("Server/ServerAddress").toString();
-    QHostAddress serverAddress = QHostAddress(serverAddressString);
-    quint16 serverPort = settings.value("Server/ServerPort").toUInt();
-
     // Connect to the server
-    this->tcpSocket.connectToHost(serverAddress,serverPort);
+    this->tcpSocket.connectToHost
+    (
+        this->serverAddress,
+        this->serverPort
+    );
 
 }
 
@@ -85,6 +84,19 @@ void NetworkManager::sendMessage ( const Message& message )
 
 }
 
+void NetworkManager::initializeServerCredentials()
+{
+
+    // Initialize the settings object
+    QSettings settings("PongOnlineClient.ini",QSettings::IniFormat);
+
+    // Retrieve server address and port from the client settings
+    QString serverAddressString = settings.value("Server/ServerAddress").toString();
+    this->serverAddress = QHostAddress(serverAddressString);
+    this->serverPort = settings.value("Server/ServerPort").toUInt();
+
+}
+
 void NetworkManager::sendUdpMessage ( const Message& message )
 {
 
@@ -96,8 +108,8 @@ void NetworkManager::sendUdpMessage ( const Message& message )
         this->udpSocket.writeDatagram
         (
             messageData,
-            ServerInfo::address,
-            ServerInfo::port
+            this->serverAddress,
+            this->serverPort
         )
     };
 
@@ -236,9 +248,9 @@ void NetworkManager::processUdpInput ( void )
     // Check if the datagram was sent by the server
     bool sentByServer
     {
-        senderAddress == ServerInfo::address
+        senderAddress == this->serverAddress
             &&
-        senderPort == ServerInfo::port
+        senderPort == this->serverPort
     };
 
     // Ignore datagrams sent not from server

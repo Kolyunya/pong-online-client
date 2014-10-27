@@ -21,6 +21,7 @@ class NetworkManager :
         void disconnectFromServer ( void );
         void sendMessage ( const Message& message );
     private:
+        void initializeServerCredentials ( void );
         void initializeHandshakeTimer ( void );
         void initializeUdpSocket ( void );
         void initializeTcpSocket ( void );
@@ -30,6 +31,8 @@ class NetworkManager :
         QTcpSocket tcpSocket;
         QHostAddress tcpAddress;
         quint16 tcpPort;
+        QHostAddress serverAddress;
+        quint16 serverPort;
         QByteArray tcpSocketBuffer;
         QTimer handshakeTimer;
         bool isActive;
